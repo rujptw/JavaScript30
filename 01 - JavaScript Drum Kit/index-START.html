@@ -59,6 +59,41 @@
 
 <script>
 
+
+
+
+
+ let playSound = (e)=>{
+  //  获取当前点击的keyCode;
+   let audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+   let key = document.querySelector(`div[data-key="${e.keyCode}"`)
+   if (!audio){
+     return;
+   }else{
+    audio.play()
+    key.classList.add('playing')
+    // 利用定时器延时执行从而达到一闪而过的动画效果
+    setTimeout(() => {
+     key.classList.remove('playing')
+    }, 200);
+   }
+
+ }
+//  let removeTransition = (e)=>{
+//   //  当对象的属性名不是transform时,不清楚变换效果，否则清除
+//   if(e.propertyName!=='transform'){
+//     return;
+//   }else{
+//     e.target.classList.remove('playing')
+//   }
+//    console.log("e",e)
+//  }
+//  let keys = document.querySelectorAll('.key');
+//  keys.forEach(element => {
+//   //  给过渡事件添加监视器
+//     element.addEventListener('transitionend', removeTransition)
+//   });
+  window.addEventListener('keydown', playSound)
 </script>
 
 
