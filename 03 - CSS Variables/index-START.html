@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Scoped CSS Variables and JS</title>
 </head>
+
 <body>
   <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
 
@@ -18,13 +20,18 @@
     <input id="base" type="color" name="base" value="#ffc600">
   </div>
 
-  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500" class="img__item">
 
   <style>
-
     /*
       misc styles, nothing to do with CSS variables
     */
+    /* 设置css变量 --element */
+    :root {
+      --img-filter: blur(10px);
+      --img-padding: 10px;
+      --img-backgound: #ffc600;
+    }
 
     body {
       text-align: center;
@@ -35,6 +42,10 @@
       font-size: 50px;
     }
 
+    .hl {
+      color: var(--img-backgound);
+    }
+
     .controls {
       margin-bottom: 50px;
     }
@@ -42,10 +53,41 @@
     input {
       width: 100px;
     }
+
+    .img__item {
+      /* 使用css变量，通过var()函数获取 */
+      filter: var(--img-filter);
+      padding: var(--img-padding);
+      background: var(--img-backgound)
+    }
   </style>
 
   <script>
+    let blurInput = document.querySelector("#blur");
+    let paddingInput = document.querySelector('#spacing');
+    let backInput = document.querySelector('#base');
+    let img = document.querySelector('.img__item');
+    let hl = document.querySelector('.hl');
+
+    blurInput.addEventListener("change", function (e) {
+      let blurScale = e.target.value + 'px';
+      // 改变css变量，从而改变img的样式
+      //setProperty() 方法用于设置一个新的 CSS 属性，同时也可以修改 CSS 声明块中已存在的属性。
+      img.style.setProperty('--img-filter', `blur(${blurScale})`)
+    })
+    paddingInput.addEventListener("change", function (e) {
+      let paddingScale = e.target.value + 'px';
+      img.style.setProperty('--img-padding', paddingScale)
+    })
+    backInput.addEventListener("change", function (e) {
+      let backColor = e.target.value;
+      img.style.setProperty('--img-backgound', backColor)
+      hl.style.setProperty('--img-backgound', backColor)
+    })
+
+
   </script>
 
 </body>
+
 </html>
