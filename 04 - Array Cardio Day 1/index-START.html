@@ -46,6 +46,7 @@
         return pre+(cur.passed-cur.year);
     },0))
     // 5. Sort the inventors by years lived
+      NOTICE:
       for(let i=0;i<inventors.length;i++){
           inventors[i].long = inventors[i].passed - inventors[i].year;
       }
@@ -65,6 +66,7 @@
         }))
     // 8. Reduce Exercise
     // Sum up the instances of each of these
+    NOTICE:
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
         let obj = {}
     for(let i=0;i<data.length;i++){
