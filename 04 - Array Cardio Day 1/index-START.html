@@ -31,29 +31,60 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
-
+       console.table(inventors.filter(item=>item.year<1600&&item.year>=1500))
     // Array.prototype.map()
     // 2. Give us an array of the inventors' first and last names
-
+      console.table(inventors.map(item=>item.first + ' ' + item.last ))
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
-
+    console.table(inventors.sort((a,b)=>{
+        return a.year - b.year;
+    }))
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live?
-
+    console.log(inventors.reduce((pre,cur)=>{
+        return pre+(cur.passed-cur.year);
+    },0))
     // 5. Sort the inventors by years lived
-
+      for(let i=0;i<inventors.length;i++){
+          inventors[i].long = inventors[i].passed - inventors[i].year;
+      }
+      console.table(inventors.sort((a,b)=>{
+        return b.long -a.long;
+      }))
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
-
+        console.table(people.sort(function(a,b){
+            let first = a.split(', ')[1]
+            let last = b.split(', ')[1]
+            return first <last? -1:1;
+        }))
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
-
+        let obj = {}
+    for(let i=0;i<data.length;i++){
+        if(!obj[data[i]]){
+          obj[data[i]] = 1;
+        }else{
+          obj[data[i]]++;
+        }
+    }
+    let keys = Object.keys(obj)
+    let values = Object.values(obj)
+    let arr = [];
+    for(let j=0;j<keys.length;j++){
+       let a = keys[j]
+       let b = values[j]
+       let obj = {};
+       obj[a] =b;
+       arr.push(obj)
+    }
+    console.log(arr)
   </script>
 </body>
 </html>
