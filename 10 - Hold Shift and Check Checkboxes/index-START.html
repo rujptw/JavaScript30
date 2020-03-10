@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Hold Shift to Check Multiple Checkboxes</title>
 </head>
+
 <body>
   <style>
-
     html {
       font-family: sans-serif;
       background: #ffc600;
@@ -17,7 +18,7 @@
       margin: 50px auto;
       background: white;
       border-radius: 5px;
-      box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+      box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
     }
 
     .item {
@@ -30,7 +31,7 @@
       border-bottom: 0;
     }
 
-    input:checked + p {
+    input:checked+p {
       background: #F9F9F9;
       text-decoration: line-through;
     }
@@ -44,13 +45,13 @@
       padding: 20px;
       transition: background 0.2s;
       flex: 1;
-      font-family:'helvetica neue';
+      font-family: 'helvetica neue';
       font-size: 20px;
       font-weight: 200;
       border-left: 1px solid #D1E2FF;
     }
   </style>
-   <!--
+  <!--
    The following is a common layout you would see in an email client.
 
    When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
@@ -58,44 +59,92 @@
   -->
   <div class="inbox">
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" onclick='checks()' data-index="0">
       <p>This is an inbox layout.</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" onclick='checks()' data-index="1">
       <p>Check one item</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" onclick='checks()' data-index="2">
       <p>Hold down your Shift key</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" onclick='checks()' data-index="3">
       <p>Check a lower item</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" onclick='checks()' data-index="4">
       <p>Everything in between should also be set to checked</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" onclick='checks()' data-index="5">
       <p>Try to do it without any libraries</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" onclick='checks()' data-index="6">
       <p>Just regular JavaScript</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" onclick='checks()' data-index="7">
       <p>Good Luck!</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" onclick='checks()' data-index="8">
       <p>Don't forget to tweet your result!</p>
     </div>
   </div>
 
-<script>
-</script>
+  <script>
+    // 问题:按住shfit键，并点击某一个checkbox，选中它及以下的checkbox
+    // 思路: 1. 监听shfit键的按住和松开，设置一个变量为布尔值 ,设置一个变量代表第一次按下所代表的的input索引
+    //       2. 给每个input绑定click事件,判断是否按下shift，没有第一次的索引，则选中它及以下的input,否则选中它及第一次选中input之间的input
+    let doc = document;
+    doc.onkeydown = function (e) {
+      if (e.shiftKey) {
+        console.log(e.shiftKey)
+        shift = true;
+      }
+    }
+    doc.onkeyup = function (e) {
+      if (!e.shiftKey) {
+        shift = false;
+      }
+    }
+    let inputs = doc.querySelectorAll('.item')
+    let len = inputs.length
+    let shift;
+    let noshiftNum;
+    function checks() {
+      let e = event || window.event;//事件对象取得
+      let num = e.target.getAttribute('data-index')//获取每个input中的自定义索引
+      if (shift) {
+        for (let i = 0; i < len; i++) {
+          let target = inputs[i].childNodes[1]//获取input
+          if (noshiftNum.toString()) {//判断是否有第一次的index
+            if (noshiftNum >= num) {//将checkedinput限制两次选中的区间内
+              if (num <= i && i <= noshiftNum) {
+                console.log('i', i);
+                target.checked = true;
+              }
+            } else {
+              if (noshiftNum <= i && i <= num) {
+                target.checked = true;
+              }
+            }
+          } else if (i >= num) {//没有第一次的input index,则选中它及以下的input
+            target.checked = true;
+
+          }
+        }
+      } else {
+        // 记录没有按下shift的input index
+        console.log(num)
+        noshiftNum = num;
+      }
+    }
+  </script>
 </body>
+
 </html>
