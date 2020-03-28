@@ -1,22 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Type Ahead 👀</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <form class="search-form">
-    <input type="text" class="search" placeholder="City or State">
+    <input type="text" class="search" placeholder="City or State" oninput="change(value)">
     <ul class="suggestions">
-      <li>Filter for a city</li>
-      <li>or a state</li>
+      <li class="holder">Filter for a city</li>
+      <li class="holder">or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    let df = document.createDocumentFragment();
+    let areaData = '';
+    const container = document.querySelector('.suggestions')
+    const holders = document.querySelectorAll('.holder')
+    function change(params) {
+      params = params.trim()
+      if (params) {
+        container.innerHTML = ''
+        xhr(params)
+      } else {
+        container.innerHTML = ''
+        container.appendChild(holders[0])
+        container.appendChild(holders[1])
+      }
+    }
+    function xhr(params) {
+      params = params.toLowerCase();
+      const xmlHttp = new XMLHttpRequest();
+      xmlHttp.open('get', endpoint);
+      xmlHttp.send();
+      xmlHttp.onload = function () {
+        areaData = xmlHttp.responseText
+        let data = formatData(areaData) || [];
+        let reg = new RegExp(params, 'i', 'g');
+        let fdata = [];
+        for (let k = 0; k < data.length; k++) {
+          let bool = reg.test(data[k].city)
+          let sbool = reg.test(data[k].state)
+          if (bool) {
+            fdata.push(data[k])
+            continue;
+          }
+          // 处理可能会出现州和市同时推送进去的情况
+          if (sbool) {
+            fdata.push(data[k])
+            continue;
+          }
+        }
+        let len = fdata.length || 0;
+        if (len <= 0) {
+          container.innerHTML = ''
+          container.appendChild(holders[0])
+          container.appendChild(holders[1])
+        }
+        for (let i = 0; i < len; i++) {
+          let li = document.createElement('li')
+          cstr = fdata[i].city.replace(reg, '<b style="color:red;">' + params + '</b>')
+          sstr = fdata[i].state.replace(reg, '<b style="color:red;">' + params + '</b>')
+          li.innerHTML = '<p>' + sstr + ' ' + cstr + ' ' + formatPop(fdata[i].population) + '</p>'
+          df.appendChild(li);
+        }
+        container.appendChild(df)
+      }
+    }
 
-</script>
+    function formatData(data) {
+      let datas = eval(data)
+      let formats = datas.map(item => {
+        return {
+          state: item.state,
+          city: item.city,
+          population: item.population
+        }
+      })
+      return formats;
+    }
+    function formatPop(data) {
+      return (data || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    }
+  </script>
 </body>
+
 </html>
