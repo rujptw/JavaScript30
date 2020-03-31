@@ -1,110 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>HTML5 Canvas</title>
 </head>
+
 <body>
-<canvas id="draw" width="800" height="800" id="painter">
-  current stock price: $3.15 +0.15
-</canvas>
-<div id="change" style="width: 100px; height:100px;"></div>
-<script>
-</script>
+  <canvas id="draw" width="800" height="800">
+    current stock price: $3.15 +0.15
+  </canvas>
+  <style>
+    html,
+    body {
+      margin: 0;
+    }
 
-<style>
-  html, body {
-    margin: 0;
-  }
-  #draw{
-    border: 1px solid rebeccapurple;
-  }
-</style>
-<script>
-  let painter = document.querySelector('#draw');
-  let test = document.querySelector('#change');
-  let isFocus = false;
-  let defineHeight= 50;
+    #draw {
+      border: 1px solid rebeccapurple;
+    }
+  </style>
+  <script>
+    let painter = document.querySelector('#draw');
+    let isFocus = false;
+    let defineHeight = 50;
+    function draw(x, y, radius = 50) {
+      // 画圆
+      let ctx = painter.getContext('2d');
+      ctx.beginPath();
+      let startAngle = 0;
+      let endAngle = Math.PI * 2;
+      let antiClockWise = true;
+      ctx.arc(x, y, radius, startAngle, endAngle, antiClockWise);
+      // 生成随机颜色
+      ctx.fillStyle = generateRandomColor()
+      // 移动圆形，并填充颜色
+      ctx.moveTo(x, y)
+      ctx.fill();
+    }
 
-  function draw(x,y,radius=50){
-  // 画圆
-  let ctx = painter.getContext('2d');
-  ctx.beginPath();
-  let startAngle = 0;
-  let endAngle = Math.PI*2;
-  let antiClockWise = true;
-  ctx.arc(x,y,radius,startAngle,endAngle,antiClockWise);
-  // 生成随机颜色
-  let randomColor = '';
-  for (let i = 0; i < 6; i++) {
-        let randomNum = Math.floor(Math.random()*16);
+    let starty = 0;
+    let endY = 0
+    let radius = 80;
+    // 监听点击事件，画圆
+    painter.addEventListener('click', function (e) {
+      isFocus = !isFocus;
+      let { x, y } = e;
+      starty = y
+      draw(x, y, radius)
+    })
+
+
+    // 监听移动事件，画圆
+    painter.addEventListener('mousemove', function (e) {
+      if (isFocus) {
+        let { x, y } = e;
+        let endY = y
+        if (endY - starty <= defineHeight && radius >= 30) {
+          radius = radius * 0.95
+        } else {
+          radius = 50;
+          starty = endY;
+          endY = 0;
+        }
+        draw(x, y, radius)
+      }
+
+    })
+    // 生成随机颜色
+    function generateRandomColor(randomColor = '') {
+      for (let i = 0; i < 6; i++) {
+        let randomNum = Math.floor(Math.random() * 16);
         let randomStr = ''
 
-         switch (randomNum) {
-           case 10:
-           randomStr = 'A'
-             break;
-           case 11:
-           randomStr = 'B'
-             break;
-           case 12:
-           randomStr = 'C'
-             break;
-           case 13:
-           randomStr = 'D'
-             break;
-           case 14:
-           randomStr = 'E'
-             break;
-           case 15:
-           randomStr = 'F'
-             break;       
-           default:
-           randomStr=randomNum
-             break;
-         }
-        randomColor+=randomStr;
+        switch (randomNum) {
+          case 10:
+            randomStr = 'A'
+            break;
+          case 11:
+            randomStr = 'B'
+            break;
+          case 12:
+            randomStr = 'C'
+            break;
+          case 13:
+            randomStr = 'D'
+            break;
+          case 14:
+            randomStr = 'E'
+            break;
+          case 15:
+            randomStr = 'F'
+            break;
+          default:
+            randomStr = randomNum
+            break;
+        }
+        randomColor += randomStr;
 
-  }
-  randomColor = '#'+ randomColor;
-  test.style.background = randomColor
-  console.log('randomColor',randomColor)
-  ctx.fillStyle=randomColor
-  // 移动圆形，并填充颜色
-  ctx.moveTo(x,y)
-  ctx.fill();
-  }
-
-let starty = 0;
-let endY =0
-// 监听点击事件，画圆
-painter.addEventListener('click',function(e){    
-      isFocus=!isFocus;
-      
-      let {x,y} = e;
-      starty = y
-      draw(x,y)
-    })
-    let radius = 80;
-
-// 监听移动事件，画圆
-  painter.addEventListener('mousemove',function(e){
-    if(isFocus){
-      let {x,y} = e;
-      let endY = y
-      if(endY-starty<= defineHeight&&radius>=30){
-          radius = radius*0.95
-      }else{
-        radius = 50;
-        starty= endY;
-        endY = 0;
       }
-      console.log(e)
-      draw(x,y,radius)
+      return '#' + randomColor
     }
-      
-    })
-</script>
+  </script>
 
 </body>
+
 </html>

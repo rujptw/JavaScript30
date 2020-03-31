@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Console Tricks!</title>
 </head>
+
 <body>
 
   <p onClick="makeGreen()">×BREAK×DOWN×</p>
@@ -13,34 +15,54 @@
 
     function makeGreen() {
       const p = document.querySelector('p');
-      p.style.color = '#BADA55';
-      p.style.fontSize = '50px';
+      p.style.cssText = 'font-size:50px;color:#BADA55;' //使用cssText能有效减少重绘，相比 style.width等直接设置css属性的方式
     }
+    makeGreen();
 
     // Regular
-
+    console.log('dogs', dogs)
     // Interpolated
-
+    const [first, second] = dogs
+    console.assert(first.age > second.age, 'I am older than you')
     // Styled
-
+    console.log('%cI am here', 'color:orange;font-size:50px;')
     // warning!
-
+    console.warn('dogs', dogs)
     // Error :|
-
+    console.error('dogs', dogs)
     // Info
-
+    console.info('dogs', dogs)
     // Testing
-
+    console.assert(1 === -1)
     // clearing
-
+    // console.clear();
     // Viewing DOM Elements
-
+    const p = document.querySelector('p');
+    console.dirxml(p)
     // Grouping together
+    console.group('第一组')
+    console.log('第一组第一个')
+    console.log('第一组第二个')
+    console.groupEnd()
 
+    console.groupCollapsed('第二组')
+    console.log('第二组第一个')
+    console.log('第二组第二个')
+    console.groupEnd();
     // counting
+    for (let i = 0; i < 10; i++) {
+      console.count('count');
 
+    }
     // timing
-
+    console.time('计时开始');
+    for (let i = 0; i < 100000; i++) {
+      let num = Math.random();
+    }
+    console.timeEnd('计时开始')
+    console.table(dogs)
+    console.log('i am cute%s', '😃')
   </script>
 </body>
+
 </html>
