@@ -7,6 +7,21 @@
 </head>
 <body>
 <script>
+  let arr = [];
+  let sercret ='code'
+  document.addEventListener('keyup',function(e){
+    const {key} = e;
+    arr.push(key)
+    if(arr.join('')==='code'){
+      console.log("that's correct")
+    }
+    if(arr.length>=7){
+      arr.shift()
+    }
+    console.log('key',key)
+    console.log('arr',arr)
+
+  })
 </script>
 </body>
 </html>
