@@ -5,33 +5,52 @@
   <title>JS Reference VS Copy</title>
 </head>
 <body>
-
+<!-- 数组浅复制: arr.slice() [].concat(arr) ,Array.from(arr),...扩展运算符-->
+<!-- 对象浅复制: Object.assign({},object),...扩展运算符-->
+<!-- 深复制 JSON.parse(JSON.stringify(arr/object)) -->
   <script>
     // start with strings, numbers and booleans
-
+      let str = '123'; let num= 3; let bool = false;
     // Let's say we have an array
     const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
-
     // and we want to make a copy of it.
-
+    
     // You might think we can just do something like this:
-
+    let players2 = players
     // however what happens when we update that array?
 
     // now here is the problem!
-
+    players2.push(5)
     // oh no - we have edited the original array too!
-
+    console.log(players2)
+    console.log(players)
     // Why? It's because that is an array reference, not an array copy. They both point to the same array!
 
     // So, how do we fix this? We take a copy instead!
 
     // one way
-
+     let playes3 = players.slice()
+     playes3.push(7)
+     console.log(playes3)
+     console.log(players)
+     console.log(players2)
     // or create a new array and concat the old one in
+    let players4 = [].concat(players)
+    players4.push(8)
+    console.log('players4',players4)
+    console.log(playes3)
+     console.log(players)
+     console.log(players2)
 
     // or use the new ES6 Spread
-
+    let players5 = [...players]
+    players5.push(9)
+    console.log('players5',players5)
+    console.log(players)
+    let arr6 = Array.from(players)
+    arr6.push(9)
+    console.log('arr6',arr6)
+    console.log(players)
     // now when we update it, the original one isn't changed
 
     // The same thing goes for objects, let's say we have a person object
@@ -43,7 +62,14 @@
     };
 
     // and think we make a copy:
-
+    let person2 = {...person};
+    person2.job = 'seller';
+    console.log('person2',person2)
+    console.log('person',person)
+    let person3 = Object.assign({},person);
+    person3.job = 'seller';
+    console.log('person3',person3)
+    console.log('person',person)
     // how do we take a copy instead?
 
     // We will hopefully soon see the object ...spread
