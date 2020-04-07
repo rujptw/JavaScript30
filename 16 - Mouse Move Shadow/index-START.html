@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Mouse Shadow</title>
 </head>
+
 <body>
 
   <div class="hero">
@@ -11,30 +13,50 @@
   </div>
 
   <style>
-  html {
-    color: black;
-    font-family: sans-serif;
-  }
+    html {
+      color: black;
+      font-family: sans-serif;
+    }
 
-  body {
-    margin: 0;
-  }
+    body {
+      margin: 0;
+    }
 
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-  }
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+    }
 
-  h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
-    font-size: 100px;
-  }
+    h1 {
+      text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+      font-size: 100px;
+    }
   </style>
 
-<script>
-</script>
+  <script>
+    const doc = document;
+    const innerText = document.querySelector('h1');
+    const container = document.querySelector('.hero');
+    // offsetWidth:padding+content+border,offsetHeight同理
+    // offsetX:鼠标在x轴事件源中心的坐标，offsetY:鼠标在Y轴事件源中心的坐标
+    // (offsetX-(width/2)) 计算阴影距离事件源中心的坐标
+    // offsetTop,offsetLeft 子元素距离父元素(offsetParent)的距离
+    let width = innerText.offsetWidth
+    let height = innerText.offsetHeight
+    container.addEventListener('mousemove', function (e) {
+      const { offsetX, offsetY } = e
+      let relativeX = (offsetX - (width / 2)) * 0.5
+      let relativeY = (offsetX - (height / 2)) * 0.5
+      innerText.style.cssText = `text-shadow:${relativeX}px ${relativeY}px orange,
+                              -${relativeY}px ${-relativeX}px green,
+                              -${relativeX}px ${relativeY}px red,
+                              ${relativeY}px ${-relativeX}px blue;`
+
+    })
+  </script>
 </body>
+
 </html>
