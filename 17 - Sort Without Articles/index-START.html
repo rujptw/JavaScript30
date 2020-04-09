@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Sort Without Articles</title>
 </head>
+
 <body>
 
   <style>
@@ -26,12 +28,12 @@
       padding: 0;
       box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
     }
-    
+
     #bands li {
       border-bottom: 1px solid #efefef;
       padding: 20px;
     }
-    
+
     #bands li:last-child {
       border-bottom: 0;
     }
@@ -40,16 +42,48 @@
       color: #ffc600;
       text-decoration: none;
     }
-
   </style>
 
   <ul id="bands"></ul>
 
-<script>
-const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+  <script>
+    const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+
+    const Treg = /^The$|^A$|^An$/
+
+    let container = document.querySelector('#bands');
+    let fragment = document.createDocumentFragment()
+
+    // 去除前缀
+    function removePreix(item) {
+      let arr = item.split(' ');
+      if (Treg.test(arr[0])) {
+        return arr.slice(1).join();
+      } else {
+        return item
+      }
+    }
+    // 比较
+    let aleadyArr = bands.sort((a, b) => {
+      //  a的unicode大于b，b会排到前面，否则b排到后面
+      if (removePreix(a) > removePreix(b)) {
+        return 1;
+      } else {
+        return -1;
+      }
+    })
+    // 塞入
+    for (let i = 0; i < aleadyArr.length; i++) {
+      let li = document.createElement('li')
+      li.innerText = aleadyArr[i]
+      fragment.appendChild(li);
+    }
+    container.appendChild(fragment)
 
 
-</script>
+
+  </script>
 
 </body>
+
 </html>
