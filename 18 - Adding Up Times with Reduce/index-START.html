@@ -5,6 +5,7 @@
   <title>Videos</title>
 </head>
 <body>
+  <p class="timer__container"></p>
   <ul class="videos">
     <li data-time="5:43">
       Video 1
@@ -182,6 +183,62 @@
     </li>
   </ul>
 <script>
+  const lis = document.querySelectorAll('li');
+  const container = document.querySelector('.timer__container')
+  let Mtimes = [];
+  let Seconds = []
+  // 获取时间arr
+  function getTimeArr(arr){
+    let len =lis.length;
+    for (let i = 0; i <len; i++) {
+        let item = lis[i].getAttribute('data-time').split(':')
+            Mtimes.push(removeZero(item[0]))
+            Seconds.push(removeZero(item[1]))
+          
+    }
+  }  
+  // 移除开头为0的string
+  function removeZero(params){
+    if(params[0]==0){
+      return parseInt(params.slice(1)) || 0
+    }else{
+      return parseInt(params);
+    }
+  }
+
+  
+  // 计算总量
+function getSums(){
+  let sumM = 0;
+  let sumS = 0
+  sumM = Mtimes.reduce(
+    (pre,next)=>{
+      return pre+next
+    },0
+  )
+  sumS = Seconds.reduce(
+    (pre,next)=>{
+      return pre+next
+    },0
+  )
+ 
+  return sumM*60+sumS;
+}
+// 计算时间
+function formaTime(params){
+  let hourseleft = 0;
+  hourseleft = params%3600;
+  let hours = (params-hourseleft)/3600;
+  let minutesLeft = hourseleft%60
+  let minutes = (hourseleft-minutesLeft)/60;
+  let seconds = minutesLeft  
+  container.innerHTML =`<strong>${hours}小时,${minutes}分,${seconds}秒</strong>`
+
+}
+getTimeArr(lis)
+formaTime(getSums())
+
+
 </script>
 </body>
 </html>
