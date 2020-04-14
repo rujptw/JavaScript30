@@ -1,33 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>👀👀👀Follow Along Nav</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .highlight {
+      transition: all 0.2s;
+      border-bottom: 2px solid white;
+      position: absolute;
+      top: 0;
+      background: white;
+      left: 0;
+      z-index: -1;
+      border-radius: 20px;
+      display: block;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
+    }
+  </style>
 </head>
+
 <body>
 
-    <nav>
-      <ul class="menu">
-        <li><a href="">Home</a></li>
-        <li><a href="">Order Status</a></li>
-        <li><a href="">Tweets</a></li>
-        <li><a href="">Read Our History</a></li>
-        <li><a href="">Contact Us</a></li>
-      </ul>
-    </nav>
+  <nav>
+    <ul class="menu">
+      <li><a href="">Home</a></li>
+      <li><a href="">Order Status</a></li>
+      <li><a href="">Tweets</a></li>
+      <li><a href="">Read Our History</a></li>
+      <li><a href="">Contact Us</a></li>
+    </ul>
+  </nav>
 
-    <div class="wrapper">
-      <p>Lorem ipsum dolor sit amet, <a href="">consectetur</a> adipisicing elit. Est <a href="">explicabo</a> unde natus necessitatibus esse obcaecati distinctio, aut itaque, qui vitae!</p>
-      <p>Aspernatur sapiente quae sint <a href="">soluta</a> modi, atque praesentium laborum pariatur earum <a href="">quaerat</a> cupiditate consequuntur facilis ullam dignissimos, aperiam quam veniam.</p>
-      <p>Cum ipsam quod, incidunt sit ex <a href="">tempore</a> placeat maxime <a href="">corrupti</a> possimus <a href="">veritatis</a> ipsum fugit recusandae est doloremque? Hic, <a href="">quibusdam</a>, nulla.</p>
-      <p>Esse quibusdam, ad, ducimus cupiditate <a href="">nulla</a>, quae magni odit <a href="">totam</a> ut consequatur eveniet sunt quam provident sapiente dicta neque quod.</p>
-      <p>Aliquam <a href="">dicta</a> sequi culpa fugiat <a href="">consequuntur</a> pariatur optio ad minima, maxime <a href="">odio</a>, distinctio magni impedit tempore enim repellendus <a href="">repudiandae</a> quas!</p>
-    </div>
-
+  <div class="wrapper">
+    <p>Lorem ipsum dolor sit amet, <a href="">consectetur</a> adipisicing elit. Est <a href="">explicabo</a> unde natus
+      necessitatibus esse obcaecati distinctio, aut itaque, qui vitae!</p>
+    <p>Aspernatur sapiente quae sint <a href="">soluta</a> modi, atque praesentium laborum pariatur earum <a
+        href="">quaerat</a> cupiditate consequuntur facilis ullam dignissimos, aperiam quam veniam.</p>
+    <p>Cum ipsam quod, incidunt sit ex <a href="">tempore</a> placeat maxime <a href="">corrupti</a> possimus <a
+        href="">veritatis</a> ipsum fugit recusandae est doloremque? Hic, <a href="">quibusdam</a>, nulla.</p>
+    <p>Esse quibusdam, ad, ducimus cupiditate <a href="">nulla</a>, quae magni odit <a href="">totam</a> ut consequatur
+      eveniet sunt quam provident sapiente dicta neque quod.</p>
+    <p>Aliquam <a href="">dicta</a> sequi culpa fugiat <a href="">consequuntur</a> pariatur optio ad minima, maxime <a
+        href="">odio</a>, distinctio magni impedit tempore enim repellendus <a href="">repudiandae</a> quas!</p>
+  </div>
+  <span class="highlight"></span>
   <script>
     // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    let aLinks = document.querySelectorAll('a');
+    console.log(aLinks)
+    let moveItem = document.getElementsByClassName('highlight')[0];
+
+    function create(left, top, height, width) {
+      moveItem.style.width = width + 'px'
+      moveItem.style.height = height + 'px'
+
+      moveItem.style.left = left + window.scrollX + 'px'
+      moveItem.style.top = top + window.scrollY + 'px'
+      moveItem.style.background = '#fff'
+      moveItem.style.borderRadius = '20px'
+
+    }
+
+
+    for (var i = 0; i < aLinks.length; i++) {
+      aLinks[i].addEventListener('mouseenter', function (e) {
+        console.log(window.scrollY)
+        let { left, right, top, bottom, x, y, height, width } = this.getClientRects()[0];
+        console.log(this.getClientRects()[0])
+        create(left, top, height, width)
+      })
+    }
+
   </script>
 </body>
-</html>
 
+</html>
