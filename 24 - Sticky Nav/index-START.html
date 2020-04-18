@@ -54,7 +54,25 @@
   </div>
 
 <script>
-
+    let nav = document.querySelector('#main');
+    let initTop = sessionStorage.getItem('initTop');//要存贮原始top，因为top会随滚动变化
+    if(!initTop){
+      initTop= nav.getClientRects()[0].top;// 也可以使用offsetTop;
+      sessionStorage.setItem('initTop',initTop)
+    }else{
+      initTop = sessionStorage.getItem('initTop');
+    }
+    let logo = document.querySelector('.logo');
+    function handleFix(e){   
+      if(scrollY>=initTop){
+        nav.style.cssText = "position:fixed;top:0px;"
+        logo.style.cssText = "max-width:500px;"
+      }else{
+        nav.style.cssText = "position:relative;"
+        logo.style.cssText = "max-width:0px;"
+      }
+    }
+    window.addEventListener('scroll',handleFix)
 </script>
 
 </body>
