@@ -40,9 +40,23 @@
   }
 </style>
 
-<button></button>
+<button> 点击</button>
 <script>
-
+  let arr = []
+  const first = document.querySelector('.one')
+  const second = document.querySelector('.two')
+  const third = document.querySelector('.three');
+  let arr2 = arr.concat(second,first,third);
+  arr2.forEach(item=>{
+    item.addEventListener('click',function(e){
+      console.log(this.className)
+      // captrue:事件捕获的时候是否触发,once:是否只触发一次,passive:是否调用preventDefault();
+    },{capture:true,once:true,passive:true})
+  })
+  const btn = document.querySelector('button');
+  btn.addEventListener('click',function(){
+    console.log(this.innerText)    
+  },{once:true})
 </script>
 </body>
 </html>
