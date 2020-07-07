@@ -35,6 +35,39 @@
   </div>
 
 <script>
+  let container = document.querySelector('.items')
+  console.log(container)
+  let isDown = false;
+  let beforeX = 0;
+  let scrollLeft = 0;
+  container.addEventListener('mousedown',function(e){
+    container.classList.add('active')
+    // 鼠标相对位置
+    beforeX = e.pageX - container.offsetLeft
+    console.log('beforeX',beforeX)
+    // 记录向左滚动的距离
+    scrollLeft =container.scrollLeft
+    isDown = true;
+    console.log('鼠标按下')
+  })
+  container.addEventListener('mouseup',function(e){
+    container.classList.remove('active')
+    isDown = false;
+    console.log('鼠标松开')
+  })
+  container.addEventListener('mousemove',function(e){
+    if(isDown){
+      // 取得鼠标当前相对位置
+      let x =e.pageX - container.offsetLeft
+      // 滚动容器，向右滚动，加，向左滚动，减,x-befoeX获取滚动的距离
+      container.scrollLeft =scrollLeft-(x-beforeX)
+      console.log('x',x)
+      console.log('beforex',beforeX)
+      console.log('scrollLeft',scrollLeft)
+      console.log('container.scrollLeft',container.scrollLeft)
+    }
+   
+  })
 </script>
 
   </body>
